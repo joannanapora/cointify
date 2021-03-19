@@ -4,9 +4,11 @@ import {BDStyles} from './bottom-drawer.styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Button from '@material-ui/core/Button';
 import Login from './login/login';
+import {withRouter} from 'react-router-dom';
 
 
-const BottomDrawer = () => {
+
+const BottomDrawer = ({history}) => {
   const classes = BDStyles();
   const [state, setState] = React.useState({
 
@@ -18,26 +20,40 @@ const BottomDrawer = () => {
       return;
     }
 
+    
     setState({ ...state, [anchor]: open });
   };
 
+  const redirectToFavourites = () => {
+    if (history) {
+      history.push('/favourite')
+    }
+  }
+
+  const redirectToCharts = () => {
+    if (history) {
+      history.push('/')
+    }
+  }
+  
   const list = (anchor) => (
     <div
-    style={{ backgroundColor: '#008080' }}
+    style={{ backgroundColor: '#008080', display: 'flex', justifyContent: 'center' }}
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
       })}
       role="presentation"
-      onKeyDown={toggleDrawer(anchor, false)}
     >
      <Login/>
     </div>
   );
 
   return (
-    <div>
+    <div className={classes.container} >
         <React.Fragment key={'bottom'}>
-          <Button edge='end' onClick={toggleDrawer('bottom', true)}>GET STARTED</Button>
+        <Button edge='end' onClick={redirectToCharts}>STATS</Button>
+          <Button edge='end' onClick={redirectToFavourites}>notification</Button>
+          <Button edge='end' onClick={toggleDrawer('bottom', true)}>login</Button>
           <SwipeableDrawer
             anchor={'bottom'}
             open={state['bottom']}
@@ -51,4 +67,4 @@ const BottomDrawer = () => {
   );
 }
 
-export default BottomDrawer;
+export default withRouter(BottomDrawer);

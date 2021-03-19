@@ -1,29 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Fab from '@material-ui/core/Fab';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import Zoom from '@material-ui/core/Zoom';
-import Charts from '../charts/charts'
-import { ReactComponent as Rocket } from '../assets/startup.svg';
-import BottomDrawer from '../bottom-drawer/bottom-drawer';
+import React from "react";
+import PropTypes from "prop-types";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Fab from "@material-ui/core/Fab";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import Zoom from "@material-ui/core/Zoom";
+import Charts from "../charts/charts";
+import { ReactComponent as Rocket } from "../assets/startup.svg";
+import BottomDrawer from "../bottom-drawer/bottom-drawer";
+import { Switch, Route, withRouter } from "react-router-dom";
+import Favourites from "../favourites/favourites";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: 'fixed',
+    position: "fixed",
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
 }));
 
-function ScrollTop(props) {
+const ScrollTop = (props) => {
   const { children, window } = props;
   const classes = useStyles();
   const trigger = useScrollTrigger({
@@ -33,10 +36,12 @@ function ScrollTop(props) {
   });
 
   const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
+    const anchor = (event.target.ownerDocument || document).querySelector(
+      "#back-to-top-anchor"
+    );
 
     if (anchor) {
-      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      anchor.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   };
 
@@ -47,40 +52,79 @@ function ScrollTop(props) {
       </div>
     </Zoom>
   );
-}
+};
 
 ScrollTop.propTypes = {
   children: PropTypes.element.isRequired,
   window: PropTypes.func,
 };
 
-const BackToTop = (props) => {
+const BackToTop = (props, { history }) => {
+  const useStyles = makeStyles((theme) => ({
+    mainContainer: {
+      padding: theme.spacing(5,10,5,10),
+      [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(0,0,0,0)
+      },
+    },
+    container: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      width: '100%'
+    }
+  }));
+
+  const classes = useStyles();
+  
+  const redirectTo = () => {
+    if (history) {
+      history.push("/");
+    }
+  };
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar style={{ backgroundColor: '#008080' }} >
+    <React.Fragment >
+      <CssBaseline  />
+      <AppBar
+        style={{
+          backgroundColor: "#008080",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <Toolbar>
-          <div style={{display:'flex', width: '100%', justifyContent: 'space-between'}}>
-            <div style={{display:'flex'}}>
-          <Rocket style={{ height: '2.5rem'}} />
-          <Typography style={{ color: 'black', paddingLeft: '20px', fontFamily: "Fredoka One" }} variant="h6">CoinTify</Typography></div>
-          <BottomDrawer style ={{marginRight: '5rem' }}/>
+          <div className={classes.container}>
+            <div style={{display: 'flex'}}>
+                <Rocket style={{ height: "2rem" }} />
+                <Button  style={{
+                    color: "black",
+                    fontFamily: "Fredoka One",
+                  }} >Cointify</Button>
+                </div>
+              <BottomDrawer style={{ marginRight: "5rem" }} />
+
           </div>
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor" />
-      <Container>
-        <Box my={2}>
-          <Charts />
+      <Container className={classes.mainContainer}>
+        <Box >
+          <Switch>
+            <Route exact path="/favourite" component={Favourites} />
+            <Route exact path="/" component={Charts} />
+          </Switch>
         </Box>
       </Container>
       <ScrollTop {...props}>
-        <Fab style={{ backgroundColor: '#008080' }} size="small" aria-label="scroll back to top">
+        <Fab
+          style={{ backgroundColor: "#008080" }}
+          size="small"
+          aria-label="scroll back to top"
+        >
           <KeyboardArrowUpIcon />
         </Fab>
       </ScrollTop>
     </React.Fragment>
   );
-}
+};
 
-export default BackToTop;
+export default withRouter(BackToTop);

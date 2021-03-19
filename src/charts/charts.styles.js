@@ -1,25 +1,27 @@
 import { makeStyles, fade } from '@material-ui/core/styles';
 
 export const useChartsStyles = makeStyles((theme) => ({
-  row:{
-    maxWidth:theme.spacing(4),
-  maxHeight:theme.spacing(5)
+  
+  image:{
+    maxWidth:theme.spacing(3),
+    maxHeight:theme.spacing(3),
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
 },  
   root: {
-      fontFamily: 'Hammersmith One',
       flexGrow: 1,
       overflow: 'auto',
-      padding: theme.spacing(5,4,4,4),
+    },
+    cellImageAndName: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'start'
+    },
+    regualCell: {
+      padding: theme.spacing(2,0,2,0),
       [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(0,0,0,0)
+        padding: '3px !important',
       },
-    },
-    container: {
-      maxHeight: 640,
-      height: '100%',
-      overflowY: 'auto',
-      width: '100%',
-      overflowX: 'hidden'
-    },
+    }
 
     }));

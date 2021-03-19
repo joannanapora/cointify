@@ -13,4 +13,8 @@ export const BDStyles = makeStyles({
     paper: {
       textAlign: 'center',
     },
+    container: {
+      display: 'flex',
+      flexDirection: 'row'
+    }
   });

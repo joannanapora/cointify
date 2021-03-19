@@ -66,39 +66,9 @@ export const useMenuDrawerStyles = makeStyles((theme) => ({
     drawer: {
         minWidth: 400,
     },
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+    }
 
 }));
-
-export const light = {
-    typography: {
-        fontWeightBold: 1000,
-        fontFamily: 'Hammersmith One',
-        fontSize: 15,
-    },
-    palette: {
-        type: 'light',
-        primary: {
-            main: '#003d00',
-        },
-        secondary: {
-            main: '#c8e6c9'
-        },
-    },
-    transitions: {}
-};
-
-export const dark= {
-    typography: {
-        fontFamily: 'Hammersmith One',
-        fontSize: 15,
-    },
-    palette: {
-        type: 'dark',
-        primary: {
-            main: '#c49000',
-        },
-        secondary: {
-            main: '#f0f4c3'
-        },
-    },
-};
