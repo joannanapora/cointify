@@ -51,9 +51,9 @@ const BottomDrawer = ({history}) => {
   return (
     <div className={classes.container} >
         <React.Fragment key={'bottom'}>
-        <Button edge='end' onClick={redirectToCharts}>STATS</Button>
-          <Button edge='end' onClick={redirectToFavourites}>notification</Button>
-          <Button edge='end' onClick={toggleDrawer('bottom', true)}>login</Button>
+        <Button size='small' edge='end' onClick={redirectToCharts}>STATS</Button>
+          <Button size='small' edge='end' onClick={redirectToFavourites}>notification</Button>
+          <Button size='small' edge='end' onClick={toggleDrawer('bottom', true)}>login</Button>
           <SwipeableDrawer
             anchor={'bottom'}
             open={state['bottom']}

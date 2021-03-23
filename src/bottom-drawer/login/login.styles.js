@@ -7,8 +7,8 @@ export const useSignInStyles = makeStyles((theme) =>
             display: 'flex',
             width: '100%',
             flexDirection: 'column',
-            alignItems: 'center'
-
+            alignItems: 'center',
+            padding: theme.spacing(0,0,2,0)
         },
         textfield: {
             margin: '2px',

@@ -15,6 +15,6 @@ export const BDStyles = makeStyles({
     },
     container: {
       display: 'flex',
-      flexDirection: 'row'
+      flexDirection: 'row',
     }
   });

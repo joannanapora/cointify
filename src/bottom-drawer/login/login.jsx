@@ -82,9 +82,9 @@ const Login = () => {
     };
             
             return (
-            <div >
-                <h1 className={classes.loginHeader}>Login</h1>
+
             <div className={classes.form}>
+                <h1 className={classes.loginHeader}>Login</h1>
             <TextField value={values.email}
                 className={classes.textfield}
                 onKeyDown={submitOnEnter}
@@ -105,7 +105,6 @@ const Login = () => {
                     onChange={handleChange('loginPassword')}
                 />
             </FormControl>
-        </div>
             <div style={{width:'100%', display: 'flex', justifyContent: 'center'}}>
             <Button className={classes.submitButton} variant="contained" size="medium" >
           Submit
@@ -145,12 +144,13 @@ const Login = () => {
                 />
             </FormControl>
         </div>
-            <div style={{width:'100%', display: 'flex', justifyContent: 'center'}}>
+        <div style={{width:'100%', display: 'flex', justifyContent: 'center'}}>
             <Button className={classes.submitButton} variant="contained" size="medium" >
           Submit
         </Button>
             </div>
-        </div>);
+            </div>
+);
 
 };
 

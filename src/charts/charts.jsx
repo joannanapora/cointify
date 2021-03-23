@@ -8,8 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import axios from "axios";
-import Button from "@material-ui/core/Button";
-import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
+
 import {format} from 'date-fns';
 import Link from '@material-ui/core/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -20,15 +19,14 @@ const Charts = () => {
   const classes = useChartsStyles();
 
   const [allCoins, setAllCoins] = useState([]);
-  const [currency, setCurrency] = useState("usd");
-  const [tracked, setTracked] = useState(false);
+  const [currency, setCurrency] = useState('usd');
   const [loading, setLoading] = useState(true);
   const preventDefault = (event) => event.preventDefault();
 
   useEffect(() => {
     axios
       .get(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=50&page=1&sparkline=false`
       )
       .then((respond) => {
         setAllCoins(respond.data)
@@ -67,7 +65,7 @@ const Charts = () => {
   return (
     <div className={classes.root}>
       <div style={{backgroundColor: '#008080', display: 'flex', justifyContent: 'space-between'}}>
-      {allCoins[0] && <h4 style={{marginLeft:'1rem', color:'white'}} >update: {format(new Date(allCoins[0].last_updated),"HH:mm:ss")} (UTC)</h4> }
+      {allCoins[0] && <h4 style={{marginLeft:'1rem', color:'white'}} >Last Update: {format(new Date(allCoins[0].last_updated),"HH:mm:ss")} (UTC)</h4> }
       <h4 style={{marginRight:'1rem', color:'white'}} >Source: <Link style={{color:'white'}} href="https://www.coingecko.com/" onClick={preventDefault}>
     CoinGecko
   </Link></h4>
@@ -92,7 +90,7 @@ const Charts = () => {
               <TableCell
                style={{fontWeight:'600', padding: '2px', margin: '0', fontSize: '11px', textAlign: 'left'}}
               >
-                24h % Chg
+                24h Chg
               </TableCell>
               <TableCell
                style={{fontWeight:'600', padding: '2px', margin: '0', fontSize: '11px', textAlign: 'right'}}
@@ -120,12 +118,12 @@ const Charts = () => {
                   style={{
                     color:
                       coin.price_change_percentage_24h > 0 ? "green" : "red",
+                      fontSize: '11px'
                   }}
                   className={classes.regualCell}
                   align="left"
                 >
-                  {coin.price_change_percentage_24h > 0 ? "+" : ""}
-                  {coin.price_change_percentage_24h.toFixed(2)}
+                  {coin.price_change_percentage_24h > 0 ? `+${coin.price_change_percentage_24h.toFixed(2)}` : `${coin.price_change_percentage_24h.toFixed(2)}`} %
                 </TableCell>
                 <TableCell className={classes.regualCell} align="right">
                   {commarize(coin.market_cap)}
