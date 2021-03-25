@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const getNotificationState = state => state.filter;
+const getNotificationState = state => state.notification;
 
-export const selectUserFilters = createSelector(
+export const selectUserNotification = createSelector(
     [getNotificationState],
-    (filters) => filters.currentFilters);
+    (notification) => notification.currentNotification);

@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 
-export default function Asynchronous() {
+const CreateNewTab = ({createNotificationTab, onChange}) => {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
@@ -26,7 +26,6 @@ export default function Asynchronous() {
         )
         .then((respond) => {
             setOptions(respond.data)
-          console.log(respond.data)
               });
     })();
 
@@ -41,9 +40,11 @@ export default function Asynchronous() {
     }
   }, [open]);
 
+
   return (
-      <div>
+      <div style={{display: 'flex', width:'100%', alignItems:'center', flexDirection: 'column', margin: '10px'}} >
     <Autocomplete
+    onChange={(event,value) => onChange(event,value)}
       id="asynchronous-demo"
       style={{ width: 300 }}
       open={open}
@@ -59,8 +60,9 @@ export default function Asynchronous() {
       loading={loading}
       renderInput={(params) => (
         <TextField
+        style={{display: 'flex', width:'100%', justifyContent:'center'}}
           {...params}
-          label="Asynchronous"
+          label="Choose Coin"
           variant="outlined"
           InputProps={{
             ...params.InputProps,
@@ -74,7 +76,10 @@ export default function Asynchronous() {
         />
       )}
     />
-    <Button variant="outlined">Select</Button>
+    <Button onClick={createNotificationTab} style={{display: 'flex', width:'100%', justifyContent:'center', margin: '20px'}} variant="outlined">Create notification</Button>
     </div>
   );
 }
+
+
+export default CreateNewTab;

@@ -21,9 +21,6 @@ const Login = () => {
         wrongEmail: false,
         wrongPassword: false,
         passwordsDontMatch: false,
-        usernameTooLong:false,
-        usernameTooShort:false,
-        usernameExists: false,
         emailExists: false,
         userRegistered: false,
         internalBackendError: false

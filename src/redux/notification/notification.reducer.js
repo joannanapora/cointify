@@ -2,7 +2,7 @@ import { NotificationActionTypes } from './notification.types';
 
 
 const INITIAL_STATE = {
-    currentNotification: { coins: [] }
+    currentNotification: []
 }
 const notificationReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
