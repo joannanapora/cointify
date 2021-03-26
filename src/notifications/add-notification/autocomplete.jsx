@@ -5,12 +5,13 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-
+import {autoStyles} from './autocomplete.styles';
 
 const CreateNewTab = ({createNotificationTab, onChange}) => {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
+  const classes = autoStyles();
 
   React.useEffect(() => {
     let active = true;
@@ -22,7 +23,7 @@ const CreateNewTab = ({createNotificationTab, onChange}) => {
     (async () => {
         axios
         .get(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false`
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false&price_change_percentage=1h%2C7d%2C30d`
         )
         .then((respond) => {
             setOptions(respond.data)
@@ -76,7 +77,18 @@ const CreateNewTab = ({createNotificationTab, onChange}) => {
         />
       )}
     />
-    <Button onClick={createNotificationTab} style={{display: 'flex', width:'100%', justifyContent:'center', margin: '20px'}} variant="outlined">Create notification</Button>
+      <Button
+      onClick={createNotificationTab}
+        background="#008080"
+        variant="contained"
+        size="large"
+        classes={{
+            root: classes.saveB, 
+            label: classes.saveL,
+          }}
+      >
+        CREATE NOTIFICATION
+      </Button>
     </div>
   );
 }

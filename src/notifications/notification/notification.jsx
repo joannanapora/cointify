@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
@@ -9,13 +9,12 @@ import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {favTabStyles} from './favourite.tab.styles';
+import {favTabStyles} from './notification.styles';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SaveIcon from '@material-ui/icons/Save';
-
+import InnerTable from './notification-table';
 
 const FavouriteTab = ({
     cancelNotification,
@@ -32,17 +31,17 @@ const FavouriteTab = ({
   // SET notificationList BASED on coinID
 
   const handleChipDelete = (chipToDelete) => () => {
-    const newNotificationList = notificationList.bitcoin.filter((keyword) => {
-        return keyword.key !== chipToDelete.key;
+    const newNotificationList = notificationList.filter((keyword) => {
+        return keyword !== chipToDelete
     });
-    setNotificationList([...notificationList, newNotificationList]);
+    setNotificationList(newNotificationList);
 };
 
 
 
 const onChipKeydown = (event) => {
 
-    if (notificationList.includes("$ " + event.target.value)) {
+    if (notificationList.includes("$ " + event.target.value) || event.target.value.length === 0) {
         return;
     };
 
@@ -64,7 +63,7 @@ const handleChipChange = (event) => {
 };
 
 
-  React.useEffect(() => {
+useEffect(() => {
     setLoading(true);
     axios
       .get(
@@ -83,7 +82,7 @@ const handleChipChange = (event) => {
         setLoading(false);
         // STRONA ZE WYJEBAŁO
       });
-  }, [coinId]);
+  }, []);
 
   return loading || !coinDetails ? (
     <div
@@ -100,28 +99,21 @@ const handleChipChange = (event) => {
     <div className={classes.root}>
       <div className={classes.section1}>
         <Grid container alignItems="center">
-          <Grid item xs>
+          <Grid style={{display: 'flex', width: '100%', justifyContent: 'space-evenly'}} item xs>
             <Typography gutterBottom variant="h6">
               <img
                 className={classes.image}
                 alt="coin-image"
                 src={coinDetails.image}
               ></img>
-              {coinDetails.name}
             </Typography>
-          </Grid>
-          <Typography {...props} variant="h6">
-            {coinDetails.chng24h > 0
-              ? `+${coinDetails.chng24h.toFixed(2)}%   `
-              : `${coinDetails.chng24h.toFixed(2)}%   `}
-          </Typography>
-          <Grid item>
-            <Typography gutterBottom variant="h6">
-              {((coinDetails.price * 100) / 100).toLocaleString() + " $"}
-            </Typography>
+          <Typography  gutterBottom style={{ fontFamily: "Fredoka One", fontSize: '23px', alignSelf: 'center' }} variant="h6">
+                {(coinDetails.name).toUpperCase()}
+                </Typography>
           </Grid>
         </Grid>
-      </div>
+        <InnerTable OneH TwentyFourH SevenDays ThirtyDays Price MarketCap />
+            </div>
       <Divider variant="middle" />
       <div className={classes.section2}>
         <div
@@ -172,18 +164,6 @@ const handleChipChange = (event) => {
               onChange={handleChipChange}
             />
           </FormControl>
-        <Button
-        background="#008080"
-        variant="contained"
-        size="large"
-        classes={{
-            root: classes.saveB, // class name, e.g. `classes-nesting-root-x`
-            label: classes.saveL, // class name, e.g. `classes-nesting-label-x`
-          }}
-        startIcon={<SaveIcon />}
-      >
-        SAVE
-      </Button>
         </div>
       </div>
       <div className={classes.section3}>
@@ -201,3 +181,14 @@ const handleChipChange = (event) => {
 };
 
 export default FavouriteTab;
+
+
+// {coinDetails.chng24h > 0
+//   ? <Typography style={{color: 'green', fontSize: '13px', marginRight: '10px'}}  variant="h6">{coinDetails.chng24h.toFixed(2)}%  </Typography>
+//   : <Typography style={{color: 'red', fontSize: '13px', marginRight: '10px'}} variant="h6">{coinDetails.chng24h.toFixed(2)}%  </Typography>}
+
+{/* <Grid item>
+<Typography gutterBottom variant="h6">
+  {((coinDetails.price * 100) / 100).toLocaleString() + " $"}
+</Typography>
+</Grid> */}

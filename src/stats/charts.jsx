@@ -42,21 +42,14 @@ const Charts = () => {
   };
 
   function commarize(value) {
-    // Alter numbers larger than 1k
     if (value >= 1e3) {
-      var units = ["k", "M", "B", "T"];
-      
-      // Divide to get SI Unit engineering style numbers (1e3,1e6,1e9, etc)
+      let units = ["k", "M", "B", "T"];
       let unit = Math.floor(((value).toFixed(0).length - 1) / 3) * 3
-      // Calculate the remainder
-      var num = (value / ('1e'+unit)).toFixed(2)
-      var unitname = units[Math.floor(unit / 3) - 1]
-      
-      // output number remainder + unitname
+      let num = (value / ('1e'+unit)).toFixed(2)
+      let unitname = units[Math.floor(unit / 3) - 1]
+     
       return num + unitname
     }
-    
-    // return formatted original number
     return value.toLocaleString()
   }
 
@@ -65,7 +58,10 @@ const Charts = () => {
   return (
     <div className={classes.root}>
       <div style={{backgroundColor: '#008080', display: 'flex', justifyContent: 'space-between'}}>
-      {allCoins[0] && <h4 style={{marginLeft:'1rem', color:'white'}} >Last Update: {format(new Date(allCoins[0].last_updated),"HH:mm:ss")} (UTC)</h4> }
+        {loading ? 
+        <div><CircularProgress style={{color: 'white'}}/></div> : 
+       <h4 style={{marginLeft:'1rem', color:'white'}} >Last Update: {format(new Date(allCoins[0].last_updated),"HH:mm:ss")} (UTC)</h4>
+        }
       <h4 style={{marginRight:'1rem', color:'white'}} >Source: <Link style={{color:'white'}} href="https://www.coingecko.com/" onClick={preventDefault}>
     CoinGecko
   </Link></h4>

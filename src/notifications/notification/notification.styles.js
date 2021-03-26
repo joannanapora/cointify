@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 export const favTabStyles = makeStyles((theme) => ({
     root: {
       width: "100%",
-      maxWidth: 360,
     },
     chip: {
       margin: theme.spacing(0.5),
@@ -21,8 +20,8 @@ export const favTabStyles = makeStyles((theme) => ({
       justifyContent: "flex-end",
     },
     image: {
-      maxWidth: theme.spacing(3),
-      maxHeight: theme.spacing(3),
+      maxWidth: theme.spacing(8),
+      maxHeight: theme.spacing(8),
       marginRight: theme.spacing(1),
       marginLeft: theme.spacing(1),
     },

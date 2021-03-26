@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
-import FavouriteTab from "./favourite-tab";
+import FavouriteTab from "../notification/notification";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import Button from "@material-ui/core/Button";
-import CreateNewTab from "./autocomplete";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { withRouter } from "react-router-dom";
+import CreateNewTab from "../add-notification/autocomplete";
 import { connect } from "react-redux";
-import { selectUserNotification } from "../redux/notification/notification.selectors";
+import { selectUserNotification } from "../../store/notification/notification.selectors";
 import { createStructuredSelector } from "reselect";
+import Alert from "../../alert/alert";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
 
   return (
     <div
@@ -47,49 +44,78 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Favourites = ({  }) => {
+const Favourites = ({}) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [loading, setLoading] = useState(false);
   const [notificationTabsList, setnotificationTabsList] = useState([]);
-  const [selectedCoin, setSelectedCoin] = useState({});
+  const [selectedCoin, setSelectedCoin] = useState({ name: "", id: "" });
+  const [showAlert, setShowAlert] = useState({
+    notificationExist: false,
+    chooseCurrency: false
+  });
 
 
   const handleChange = (_, newValue) => {
-
     setValue(newValue);
 
     if (newValue !== 0) {
-
-      const selectedTabName = notificationTabsList[newValue-1].name
-      const selectedTabId = notificationTabsList[newValue-1].id
-  
-      setSelectedCoin({name: selectedTabName, id: selectedTabId})
+      const selectedTabName = notificationTabsList[newValue - 1].name;
+      const selectedTabId = notificationTabsList[newValue - 1].id;
+      setSelectedCoin({ name: selectedTabName, id: selectedTabId });
     }
-    
   };
-
 
   const onSelectedValue = (_, value) => {
-    setSelectedCoin({name: value.name, id: value.id})
+    setShowAlert(false)
+    if (value === null) {
+      return;
+    }
+    setSelectedCoin({ name: value.name, id: value.id });
   };
 
-  const createNotificationTab = () => {
-    setnotificationTabsList([...notificationTabsList, selectedCoin ]);
+  const createNotificationTab = async() => {
+
+      if (selectedCoin.name === "" && selectedCoin.id === "") {
+        setShowAlert({...showAlert, chooseCurrency: true});
+        return;
+      }
+
+      if(notificationTabsList.findIndex(
+        (element) => element.id === selectedCoin.id) >= 0
+      ) {
+        setShowAlert({...showAlert, notificationExist: true})
+        return;
+      }
+
+    await setnotificationTabsList([...notificationTabsList, selectedCoin]);
+
+    setValue(value+notificationTabsList.length+1);
+
+    setSelectedCoin({ name: "", id: "" });
+
   };
 
-
-  const cancelNotification= (coinId) => {
-    const listAfterCancelNotification = notificationTabsList.filter((tab)=>{
-      return tab.id !== coinId
+  const cancelNotification = (coinId) => {
+    const listAfterCancelNotification = notificationTabsList.filter((tab) => {
+      return tab.id !== coinId;
     });
     setnotificationTabsList(listAfterCancelNotification);
-    setValue(value-1)
-  }
-
+    setValue(value - 1);
+  };
 
   return (
     <div className={classes.root}>
+      {showAlert.notificationExist && 
+      <Alert
+        type="error"
+        text="You already have notification of this currency."
+      />}
+       {showAlert.chooseCurrency && 
+      <Alert
+        type="error"
+        text="Please choose currency."
+      />}
       <AppBar position="static" color="inherit">
         <Tabs
           value={value}
@@ -116,32 +142,15 @@ const Favourites = ({  }) => {
         notificationTabsList.map((coin, i) => {
           return (
             <TabPanel key={i + 1} value={value} index={i + 1}>
-              {loading ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignContent: "center",
-                    padding: "4rem",
-                  }}
-                >
-                  <CircularProgress
-                    style={{ color: "#008080" }}
-                    disableShrink
-                  />
-                </div>
-              ) : (
-                <FavouriteTab
+              <FavouriteTab
                 cancelNotification={cancelNotification}
-                  coinId = {selectedCoin.id}
-                  style={{
-                    color:
-                      coin.price_change_percentage_24h > 0 ? "green" : "red",
-                    marginRight: "10px",
-                    fontSize: "12px",
-                  }}
-                />
-              )}
+                coinId={selectedCoin.id}
+                style={{
+                  color: coin.price_change_percentage_24h > 0 ? "green" : "red",
+                  marginRight: "10px",
+                  fontSize: "12px",
+                }}
+              />
             </TabPanel>
           );
         })}
