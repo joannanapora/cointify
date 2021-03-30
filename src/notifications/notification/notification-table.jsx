@@ -10,13 +10,14 @@ import Paper from '@material-ui/core/Paper';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#2C6975',
     color: theme.palette.common.white,
-    fontSize: 10,
+    fontSize: 11,
+    fontFamily: "Fredoka One"
   },
   body: {
-    fontSize: 8,
-    maxHeight: theme.spacing(3)
+    fontSize: '10px',
+    maxHeight: theme.spacing(5)
   },
 }))(TableCell);
 
@@ -30,7 +31,8 @@ const StyledTableRow = withStyles((theme) => ({
 
 const useStyles = makeStyles({
   table: {
-      maxHeight: '10px'
+      maxHeight: '10px',
+      width: '50%',
   },
 });
 
@@ -38,28 +40,28 @@ const InnerTable = ({OneH,TwentyFourH, SevenDays,ThirtyDays, Price, MarketCap })
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer style={{width: '100%', justifyContent: 'center', display: 'flex'}} >
       <Table className={classes.table} aria-label="customized table">
         <TableHead >
           <TableRow>
-            <StyledTableCell style={{padding: '12px', lineHeight: 0}} >Price</StyledTableCell>
-            <StyledTableCell style={{padding: '12px', lineHeight: 0}} align="right">1h</StyledTableCell>
-            <StyledTableCell style={{padding: '12px', lineHeight: 0}} align="right">24h</StyledTableCell>
-            <StyledTableCell style={{padding: '12px', lineHeight: 0}} align="right">7d</StyledTableCell>
-            <StyledTableCell style={{padding: '12px', lineHeight: 0}} align="right">30d</StyledTableCell>
-            <StyledTableCell style={{padding: '12px', lineHeight: 0}} align="right">Market Cap</StyledTableCell>
+            <StyledTableCell style={{padding: '12px', lineHeight: 0, border: 'none'}} >Price</StyledTableCell>
+            <StyledTableCell style={{padding: '12px', lineHeight: 0, border: 'none'}} align="right">1h</StyledTableCell>
+            <StyledTableCell style={{padding: '12px', lineHeight: 0, border: 'none'}} align="right">24h</StyledTableCell>
+            <StyledTableCell style={{padding: '12px', lineHeight: 0, border: 'none'}} align="right">7d</StyledTableCell>
+            <StyledTableCell style={{padding: '12px', lineHeight: 0, border: 'none'}} align="right">30d</StyledTableCell>
+            <StyledTableCell style={{padding: '12px', lineHeight: 0, border: 'none'}} align="right">Market Cap</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
             <StyledTableRow>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell style={{backgroundColor: 'transparent', border: 'none'}} component="th" scope="row">
                 {Price}
-              </StyledTableCell>
-              <StyledTableCell align="right">{OneH}</StyledTableCell>
-              <StyledTableCell align="right">{TwentyFourH}</StyledTableCell>
-              <StyledTableCell align="right">{SevenDays}</StyledTableCell>
-              <StyledTableCell align="right">{ThirtyDays}</StyledTableCell>
-              <StyledTableCell align="right">{MarketCap}</StyledTableCell>
+              </StyledTableCell  >
+              <StyledTableCell style={{backgroundColor: 'transparent', border: 'none'}}  align="right">{OneH}</StyledTableCell>
+              <StyledTableCell  style={{backgroundColor: 'transparent', border: 'none'}} align="right">{TwentyFourH}</StyledTableCell>
+              <StyledTableCell style={{backgroundColor: 'transparent', border: 'none'}} align="right">{SevenDays}</StyledTableCell>
+              <StyledTableCell style={{backgroundColor: 'transparent', border: 'none'}} align="right">{ThirtyDays}</StyledTableCell>
+              <StyledTableCell style={{backgroundColor: 'transparent', border: 'none'}} align="right">{MarketCap}</StyledTableCell>
 
             </StyledTableRow>
         </TableBody>

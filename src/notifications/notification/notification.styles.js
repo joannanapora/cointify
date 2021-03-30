@@ -17,7 +17,7 @@ export const favTabStyles = makeStyles((theme) => ({
       margin: theme.spacing(3, 1, 1),
       width: "100%",
       display: "flex",
-      justifyContent: "flex-end",
+      justifyContent: "center",
     },
     image: {
       maxWidth: theme.spacing(8),
@@ -52,6 +52,8 @@ export const favTabStyles = makeStyles((theme) => ({
         listStyle: 'none',
         padding: theme.spacing(0.5),
         margin: 0,
+        backgroundColor: 'inherit',
+        boxShadow: 'none'
     },
     saveB: {
         background: "#008080",

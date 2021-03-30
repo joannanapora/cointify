@@ -9,8 +9,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import CreateNewTab from "../add-notification/autocomplete";
 import { connect } from "react-redux";
-import { selectUserNotification } from "../../store/notification/notification.selectors";
-import { createStructuredSelector } from "reselect";
+import '../../index.css'
 import Alert from "../../alert/alert";
 
 function TabPanel(props) {
@@ -39,9 +38,16 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
+    height: '100vh',
+
   },
+  TabContainer: {
+    backgroundColor: 'inherit'
+  },
+  colorTab: {
+    color: 'none'
+  },
+  
 }));
 
 const Favourites = ({}) => {
@@ -116,7 +122,7 @@ const Favourites = ({}) => {
         type="error"
         text="Please choose currency."
       />}
-      <AppBar position="static" color="inherit">
+      <AppBar className={classes.TabContainer} position="static" color="inherit">
         <Tabs
           value={value}
           onChange={handleChange}
@@ -126,9 +132,9 @@ const Favourites = ({}) => {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          <Tab style={{ color: "#008080" }} icon={<AddCircleIcon />} />
+          <Tab style={{ border: 0, color: "#008080", position: 'inherit' }} icon={<AddCircleIcon />} />
           {notificationTabsList?.map((coin, i) => {
-            return <Tab key={i} label={coin.name} {...a11yProps(0)} />;
+            return <Tab style={{ color: "#008080", position: 'inherit' }} key={i} label={coin.name} {...a11yProps(0)} />;
           })}
         </Tabs>
       </AppBar>
@@ -158,8 +164,4 @@ const Favourites = ({}) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  notifications: selectUserNotification,
-});
-
-export default connect(mapStateToProps, null)(Favourites);
+export default connect(null, null)(Favourites);

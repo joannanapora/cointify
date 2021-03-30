@@ -114,10 +114,9 @@ useEffect(() => {
         </Grid>
         <InnerTable OneH TwentyFourH SevenDays ThirtyDays Price MarketCap />
             </div>
-      <Divider variant="middle" />
       <div className={classes.section2}>
         <div
-          style={{ display: "flex", justifyContent: "center" }}
+          style={{ display: "flex", justifyContent: "center", fontFamily: "Fredoka One", fontSize: '13px', marginBottom: '12px' }}
         >
           ACTIVE {coinDetails.name.toUpperCase()} NOTIFICATIONS:
         </div>
@@ -127,10 +126,10 @@ useEffect(() => {
               display: "flex",
               width: "100%",
               justifyContent: "center",
-              color: "#008080", fontSize: '20px', fontWeight: 'bold'
+              color: "black", fontSize: '18px', fontWeight: 'bold'
             }}
           >
-            0 Notifications
+            0
           </p>
         ) : (
             <Paper component="ul" className={classes.chipRoot}>
@@ -150,12 +149,12 @@ useEffect(() => {
         )}
         <div className={classes.rootInput}>
           <FormControl fullWidth className={classes.margin}  variant="outlined">
-            <InputLabel   style={{color: "#008080", fontWeight: 'bold' }} htmlFor="outlined-adornment-amount">Amount</InputLabel>
+            <InputLabel   style={{color: 'black', fontWeight: 'bold' }} htmlFor="outlined-adornment-amount">Amount</InputLabel>
             <OutlinedInput
             style={{color: "#008080", fontSize: '20px', fontWeight: 'bold' }}
               id="outlined-adornment-amount"
               startAdornment={
-                <InputAdornment   style={{color: "#008080", fontSize: '20px', fontWeight: 'bold' }} position="start">$</InputAdornment>
+                <InputAdornment   style={{color: "black", fontSize: '20px', fontWeight: 'bold' }} position="start">$</InputAdornment>
               }
               labelWidth={60}
               value={chip}
@@ -168,12 +167,11 @@ useEffect(() => {
       </div>
       <div className={classes.section3}>
       <Button
-      onClick={()=>cancelNotification(coinId)} style={{ color: "#008080" }}
+      onClick={()=>cancelNotification(coinId)} style={{ color: "#008080", justifySelf: 'center' }}
         variant="contained"
-        className={classes.button}
         startIcon={<DeleteIcon />}
       >
-        DELETE
+        DELETE NOTIFICATIONS
       </Button>
       </div>
     </div>

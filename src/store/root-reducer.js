@@ -3,7 +3,6 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import userReducer from './user/user.reducer';
-import notificationReducer from './notification/notification.reducer';
 
 
 const persistConfig = {
@@ -14,7 +13,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     user: userReducer,
-    notification: notificationReducer,
 });
 
 
