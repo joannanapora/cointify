@@ -9,7 +9,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import CreateNewTab from "../add-notification/autocomplete";
 import { connect } from "react-redux";
-import '../../index.css'
+import "../../index.css";
 import Alert from "../../alert/alert";
 
 function TabPanel(props) {
@@ -17,6 +17,7 @@ function TabPanel(props) {
 
   return (
     <div
+      style={{ height: "100vh" }}
       role="tabpanel"
       hidden={value !== index}
       id={`scrollable-auto-tabpanel-${index}`}
@@ -36,18 +37,17 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  listRoot: {
     flexGrow: 1,
-    height: '100vh',
-
+    height: "100%",
+    width: "100%",
   },
   TabContainer: {
-    backgroundColor: 'inherit'
+    backgroundColor: "inherit",
   },
   colorTab: {
-    color: 'none'
+    color: "none",
   },
-  
 }));
 
 const Favourites = ({}) => {
@@ -58,9 +58,8 @@ const Favourites = ({}) => {
   const [selectedCoin, setSelectedCoin] = useState({ name: "", id: "" });
   const [showAlert, setShowAlert] = useState({
     notificationExist: false,
-    chooseCurrency: false
+    chooseCurrency: false,
   });
-
 
   const handleChange = (_, newValue) => {
     setValue(newValue);
@@ -73,33 +72,33 @@ const Favourites = ({}) => {
   };
 
   const onSelectedValue = (_, value) => {
-    setShowAlert(false)
+    setShowAlert(false);
     if (value === null) {
       return;
     }
     setSelectedCoin({ name: value.name, id: value.id });
   };
 
-  const createNotificationTab = async() => {
+  const createNotificationTab = async () => {
+    if (selectedCoin.name === "" && selectedCoin.id === "") {
+      setShowAlert({ ...showAlert, chooseCurrency: true });
+      return;
+    }
 
-      if (selectedCoin.name === "" && selectedCoin.id === "") {
-        setShowAlert({...showAlert, chooseCurrency: true});
-        return;
-      }
-
-      if(notificationTabsList.findIndex(
-        (element) => element.id === selectedCoin.id) >= 0
-      ) {
-        setShowAlert({...showAlert, notificationExist: true})
-        return;
-      }
+    if (
+      notificationTabsList.findIndex(
+        (element) => element.id === selectedCoin.id
+      ) >= 0
+    ) {
+      setShowAlert({ ...showAlert, notificationExist: true });
+      return;
+    }
 
     await setnotificationTabsList([...notificationTabsList, selectedCoin]);
 
-    setValue(value+notificationTabsList.length+1);
+    setValue(value + notificationTabsList.length + 1);
 
     setSelectedCoin({ name: "", id: "" });
-
   };
 
   const cancelNotification = (coinId) => {
@@ -111,18 +110,21 @@ const Favourites = ({}) => {
   };
 
   return (
-    <div className={classes.root}>
-      {showAlert.notificationExist && 
-      <Alert
-        type="error"
-        text="You already have notification of this currency."
-      />}
-       {showAlert.chooseCurrency && 
-      <Alert
-        type="error"
-        text="Please choose currency."
-      />}
-      <AppBar className={classes.TabContainer} position="static" color="inherit">
+    <div className={classes.listRoot}>
+      {showAlert.notificationExist && (
+        <Alert
+          type="error"
+          text="You already have notification of this currency."
+        />
+      )}
+      {showAlert.chooseCurrency && (
+        <Alert type="error" text="Please choose currency." />
+      )}
+      <AppBar
+        className={classes.TabContainer}
+        position="static"
+        color="inherit"
+      >
         <Tabs
           value={value}
           onChange={handleChange}
@@ -132,9 +134,19 @@ const Favourites = ({}) => {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          <Tab style={{ border: 0, color: "#008080", position: 'inherit' }} icon={<AddCircleIcon />} />
+          <Tab
+            style={{ border: 0, color: "#008080", position: "inherit" }}
+            icon={<AddCircleIcon />}
+          />
           {notificationTabsList?.map((coin, i) => {
-            return <Tab style={{ color: "#008080", position: 'inherit' }} key={i} label={coin.name} {...a11yProps(0)} />;
+            return (
+              <Tab
+                style={{ color: "#008080", position: "inherit" }}
+                key={i}
+                label={coin.name}
+                {...a11yProps(0)}
+              />
+            );
           })}
         </Tabs>
       </AppBar>

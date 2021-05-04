@@ -1,13 +1,11 @@
-import React from 'react';
-import './App.css';
-import { Application } from './App.styles';
-import BackToTop from './menu/menu';
-
+import React from "react";
+import "./App.css";
+import { Application } from "./App.styles";
+import BackToTop from "./appbar/appbar";
 
 const App = () => {
-
   return (
-    <Application >
+    <Application>
       <BackToTop />
     </Application>
   );

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -9,61 +8,55 @@ import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {favTabStyles} from './notification.styles';
-import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-import Avatar from '@material-ui/core/Avatar';
-import DeleteIcon from '@material-ui/icons/Delete';
-import InnerTable from './notification-table';
+import { favTabStyles } from "./notification.styles";
+import Chip from "@material-ui/core/Chip";
+import Paper from "@material-ui/core/Paper";
+import Avatar from "@material-ui/core/Avatar";
+import DeleteIcon from "@material-ui/icons/Delete";
 
-const FavouriteTab = ({
-    cancelNotification,
-    coinId,
-  ...props
-}) => {
+const FavouriteTab = ({ cancelNotification, coinId, ...props }) => {
   const classes = favTabStyles();
   const [coinDetails, setCoinDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [chip, setChip] = useState("");
-  const [notificationList, setNotificationList] = useState([])
+  const [notificationList, setNotificationList] = useState([]);
 
   // FETCH on USE EFFECT
   // SET notificationList BASED on coinID
 
   const handleChipDelete = (chipToDelete) => () => {
     const newNotificationList = notificationList.filter((keyword) => {
-        return keyword !== chipToDelete
+      return keyword !== chipToDelete;
     });
     setNotificationList(newNotificationList);
-};
+  };
 
-
-
-const onChipKeydown = (event) => {
-
-    if (notificationList.includes("$ " + event.target.value) || event.target.value.length === 0) {
-        return;
-    };
-
-    if (event.key === 'Enter' || event.key === 'Tab') {
-
-        const newListOnKeyDown = [...notificationList, "$ " + event.target.value];
-        
-        setNotificationList(newListOnKeyDown);
-
-        setChip("");
+  const onChipKeydown = (event) => {
+    if (
+      notificationList.includes("$ " + event.target.value) ||
+      event.target.value.length === 0
+    ) {
+      return;
     }
-};
 
+    if (event.key === "Enter" || event.key === "Tab") {
+      const newListOnKeyDown = [...notificationList, "$ " + event.target.value];
 
-const handleChipChange = (event) => {
-    event.target.value[event.target.value.length - 1] === ' ' || event.target.value[0] === ',' ?
-        setChip(event.target.value.slice(0, -1)) :
-        setChip(event.target.value);
-};
+      setNotificationList(newListOnKeyDown);
 
+      setChip("");
+    }
+  };
 
-useEffect(() => {
+  const handleChipChange = (event) => {
+    if (event.target.value.length >= 11) {
+      return;
+    }
+
+    setChip(event.target.value);
+  };
+
+  useEffect(() => {
     setLoading(true);
     axios
       .get(
@@ -90,7 +83,6 @@ useEffect(() => {
         display: "flex",
         justifyContent: "center",
         alignContent: "center",
-        padding: "4rem",
       }}
     >
       <CircularProgress style={{ color: "#008080" }} disableShrink />
@@ -99,7 +91,15 @@ useEffect(() => {
     <div className={classes.root}>
       <div className={classes.section1}>
         <Grid container alignItems="center">
-          <Grid style={{display: 'flex', width: '100%', justifyContent: 'space-evenly'}} item xs>
+          <Grid
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-evenly",
+            }}
+            item
+            xs
+          >
             <Typography gutterBottom variant="h6">
               <img
                 className={classes.image}
@@ -107,16 +107,29 @@ useEffect(() => {
                 src={coinDetails.image}
               ></img>
             </Typography>
-          <Typography  gutterBottom style={{ fontFamily: "Fredoka One", fontSize: '23px', alignSelf: 'center' }} variant="h6">
-                {(coinDetails.name).toUpperCase()}
-                </Typography>
+            <Typography
+              gutterBottom
+              style={{
+                fontFamily: "Fredoka One",
+                fontSize: "23px",
+                alignSelf: "center",
+              }}
+              variant="h6"
+            >
+              {coinDetails.name.toUpperCase()}
+            </Typography>
           </Grid>
         </Grid>
-        <InnerTable OneH TwentyFourH SevenDays ThirtyDays Price MarketCap />
-            </div>
+      </div>
       <div className={classes.section2}>
         <div
-          style={{ display: "flex", justifyContent: "center", fontFamily: "Fredoka One", fontSize: '13px', marginBottom: '12px' }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            fontFamily: "Fredoka One",
+            fontSize: "13px",
+            marginBottom: "12px",
+          }}
         >
           ACTIVE {coinDetails.name.toUpperCase()} NOTIFICATIONS:
         </div>
@@ -126,35 +139,53 @@ useEffect(() => {
               display: "flex",
               width: "100%",
               justifyContent: "center",
-              color: "black", fontSize: '18px', fontWeight: 'bold'
+              color: "black",
+              fontSize: "18px",
+              fontWeight: "bold",
             }}
           >
             0
           </p>
         ) : (
-            <Paper component="ul" className={classes.chipRoot}>
+          <Paper component="ul" className={classes.chipRoot}>
             {notificationList.map((element) => {
-                return (
-                    <li key={element}>
-                        <Chip
-                            avatar={<Avatar alt="coin" src={coinDetails.image} />}
-                            label={element}
-                            value={chip}
-                            onDelete={handleChipDelete(element)}
-                            className={classes.chip} />
-                    </li>
-                );
+              return (
+                <li key={element}>
+                  <Chip
+                    avatar={<Avatar alt="coin" src={coinDetails.image} />}
+                    label={element}
+                    value={chip}
+                    onDelete={handleChipDelete(element)}
+                    className={classes.chip}
+                  />
+                </li>
+              );
             })}
-        </Paper>
+          </Paper>
         )}
         <div className={classes.rootInput}>
-          <FormControl fullWidth className={classes.margin}  variant="outlined">
-            <InputLabel   style={{color: 'black', fontWeight: 'bold' }} htmlFor="outlined-adornment-amount">Amount</InputLabel>
+          <FormControl fullWidth className={classes.margin} variant="outlined">
+            <InputLabel
+              style={{ color: "black", fontWeight: "bold" }}
+              htmlFor="outlined-adornment-amount"
+            >
+              Amount
+            </InputLabel>
             <OutlinedInput
-            style={{color: "#008080", fontSize: '20px', fontWeight: 'bold' }}
+              style={{ color: "#008080", fontSize: "20px", fontWeight: "bold" }}
               id="outlined-adornment-amount"
+              disabled={notificationList.length >= 10}
               startAdornment={
-                <InputAdornment   style={{color: "black", fontSize: '20px', fontWeight: 'bold' }} position="start">$</InputAdornment>
+                <InputAdornment
+                  style={{
+                    color: "black",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                  position="start"
+                >
+                  $
+                </InputAdornment>
               }
               labelWidth={60}
               value={chip}
@@ -166,13 +197,14 @@ useEffect(() => {
         </div>
       </div>
       <div className={classes.section3}>
-      <Button
-      onClick={()=>cancelNotification(coinId)} style={{ color: "#008080", justifySelf: 'center' }}
-        variant="contained"
-        startIcon={<DeleteIcon />}
-      >
-        DELETE NOTIFICATIONS
-      </Button>
+        <Button
+          onClick={() => cancelNotification(coinId)}
+          style={{ color: "#008080", justifySelf: "center" }}
+          variant="contained"
+          startIcon={<DeleteIcon />}
+        >
+          DELETE NOTIFICATIONS
+        </Button>
       </div>
     </div>
   );
@@ -180,13 +212,14 @@ useEffect(() => {
 
 export default FavouriteTab;
 
-
 // {coinDetails.chng24h > 0
 //   ? <Typography style={{color: 'green', fontSize: '13px', marginRight: '10px'}}  variant="h6">{coinDetails.chng24h.toFixed(2)}%  </Typography>
 //   : <Typography style={{color: 'red', fontSize: '13px', marginRight: '10px'}} variant="h6">{coinDetails.chng24h.toFixed(2)}%  </Typography>}
 
-{/* <Grid item>
+{
+  /* <Grid item>
 <Typography gutterBottom variant="h6">
   {((coinDetails.price * 100) / 100).toLocaleString() + " $"}
 </Typography>
-</Grid> */}
+</Grid> */
+}

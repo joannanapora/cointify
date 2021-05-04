@@ -8,27 +8,25 @@ export const useSignInStyles = makeStyles((theme) =>
             width: '100%',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: theme.spacing(0,0,2,0)
         },
         textfield: {
             margin: '2px',
             maxWidth: theme.spacing(40),
             display: 'flex',
             width: '100%',
-
         },
         loginHeader: {
             display: 'flex',
             justifyContent: 'center',
             width: '100%',
             fontFamily: "Fredoka One",
-            fontWeight: 'normal'
+            fontWeight: 'normal',
+            fontSize: '25px'
         },
         submitButton: {
-            margin: theme.spacing(2,0,2,0),
-            maxWidth: theme.spacing(10),
-            backgroundColor: '#008080',
-            border: '2px solid black'
+            margin: theme.spacing(2, 0, 2, 0),
+            maxWidth: theme.spacing(14),
+            border: '1px solid black'
         },
     }
     ));

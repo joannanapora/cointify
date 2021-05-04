@@ -10,11 +10,11 @@ import Container from "@material-ui/core/Container";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Zoom from "@material-ui/core/Zoom";
-import Charts from "../stats/charts";
+import Charts from "../stats/stats";
 import { ReactComponent as Rocket } from "../assets/startup.svg";
-import BottomDrawer from "../bottom-drawer/bottom-drawer";
+import BottomDrawer from "../drawer/login-drawer/bottom-drawer";
 import { Switch, Route, withRouter } from "react-router-dom";
-import Favourites from "../notifications/notification-list/notification-list";
+import Favourites from "../notification/notification-list/notification-list";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,28 +61,23 @@ ScrollTop.propTypes = {
 const BackToTop = (props, { history }) => {
   const useStyles = makeStyles((theme) => ({
     mainContainer: {
-      padding: theme.spacing(5,10,5,10),
-      [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(0,0,0,0)
+      padding: theme.spacing(5, 10, 5, 10),
+      [theme.breakpoints.down("sm")]: {
+        padding: theme.spacing(0, 0, 0, 0),
       },
     },
     container: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      width: '100%'
-    }
+      display: "flex",
+      justifyContent: "space-between",
+      width: "100%",
+    },
   }));
 
   const classes = useStyles();
-  
-  const redirectTo = () => {
-    if (history) {
-      history.push("/");
-    }
-  };
+
   return (
-    <React.Fragment >
-      <CssBaseline  />
+    <React.Fragment>
+      <CssBaseline />
       <AppBar
         style={{
           backgroundColor: "#008080",
@@ -92,21 +87,24 @@ const BackToTop = (props, { history }) => {
       >
         <Toolbar>
           <div className={classes.container}>
-            <div style={{display: 'flex'}}>
-                <Rocket style={{ height: "2rem" }} />
-                <Button  style={{
-                    color: "black",
-                    fontFamily: "Fredoka One",
-                  }} >Cointify</Button>
-                </div>
-              <BottomDrawer style={{ marginRight: "5rem" }} />
-
+            <div style={{ display: "flex" }}>
+              <Rocket style={{ height: "2rem" }} />
+              <Button
+                style={{
+                  color: "black",
+                  fontFamily: "Fredoka One",
+                }}
+              >
+                Cointify
+              </Button>
+            </div>
+            <BottomDrawer style={{ marginRight: "5rem" }} />
           </div>
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor" />
       <Container className={classes.mainContainer}>
-        <Box >
+        <Box>
           <Switch>
             <Route exact path="/favourite" component={Favourites} />
             <Route exact path="/" component={Charts} />
